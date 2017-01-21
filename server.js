@@ -2,6 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var bodyParser = require('body-parser');
 var express = require('express');
+var analyzer = require('./analyzer');
 
 var app = express();
 
@@ -13,8 +14,11 @@ app.use(bodyParser.urlencoded({
 
 app.post('/analyze', function(req, res) {
   var text = req.body.toAnalyze;
-  console.log(text);
-  res.send('done');
+  console.log("Analying: " + text);
+  var result = analyzer.analyze(text);
+
+  res.type('json');
+  res.send(JSON.stringify(result));
 });
 
 app.use(express.static('.'));
