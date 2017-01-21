@@ -1,35 +1,23 @@
 var http = require('http');
 var fs = require('fs');
+var bodyParser = require('body-parser');
+var express = require('express');
 
-http.createServer(function(request, response) {
-  var headers = request.headers;
-  var method = request.method;
-  var url = request.url;
-  var body = [];
-  request.on('error', function(err) {
-    console.error(err);
-  }).on('data', function(chunk){
-    body.push(chunk);
-  }).on('end', function() {
+var app = express();
 
-    response.on('error', function(err) {
-     console.error(err);
-   });
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
-   response.statusCode = 200;
-   response.setHeader('Content-Type', 'text/html');
 
-   var responseBody = {
-     headers: headers,
-     method: method,
-     url: url,
-     body: body
-   };
-   
-   console.log(url);
+app.post('/analyze', function(req, res) {
+  var text = req.body.toAnalyze;
+  console.log(text);
+  res.send('done');
+});
 
-   var contents = fs.readFileSync('index.html').toString();
-   response.write(contents);
-   response.end();
- });
-}).listen(9000);
+app.use(express.static('.'));
+http.createServer(app).listen(8080);
+
+console.log('Server started on localhost:8080');

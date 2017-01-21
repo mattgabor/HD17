@@ -1,0 +1,28 @@
+{
+  "name": "hd17",
+  "version": "1.0.0",
+  "description": "CodeBuddy",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "prompt-sync": "^4.1.4",
+    "watson-developer-cloud": "^2.15.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattgabor/HD17.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattgabor/HD17/issues"
+  },
+  "homepage": "https://github.com/mattgabor/HD17#readme"
+}
