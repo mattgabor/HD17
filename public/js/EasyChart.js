@@ -32,6 +32,16 @@ function plot(type, labels, yourData, averageData, id) {
 		        }
 		    ]
 		};
+
+		var opts = {
+			maintainAspectRatio: false,
+			scale: {
+				ticks: {
+					fontSize: 18
+				}
+			}
+		};
+
 	} else if(type == "bar") {
 		var data = {
 		    labels: labels,
@@ -52,6 +62,17 @@ function plot(type, labels, yourData, averageData, id) {
 		        }
 		    ]
 		};
+
+		var opts = {
+			maintainAspectRatio: false,
+			scales: {
+				xAxes: [{
+					ticks: {
+						fontSize: 18
+					}
+				}]
+			}
+		};
 	}
 
 	var ctx = document.getElementById(id);
@@ -59,6 +80,6 @@ function plot(type, labels, yourData, averageData, id) {
 	var myRadarChart = new Chart(ctx, {
 		type: type,
 		data: data,
-		options: {}
+		options: opts
 	});
 }
