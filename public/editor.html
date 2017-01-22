@@ -213,18 +213,8 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
-
-    <!-- Initialize Quill editor -->
+    <script src="js/countUp.js"></script>
     <script>
-
-    var sample2 = "The Necklace, by Gue de Maupassant, is a story about a woman named Ms. Loisel. she was petty and charming. She married a common little clark. Her life was in poverty and depression. One day, She and her husband received an invitation to attend a ball. To conceal her impoverished family situations and show off her charm and beauty, she borrowed a necklace from her friend. Then, at the ball she did have a wonderful time. However, she lost the necklace after the ball. The poor woman and her husband had to spend up all their saving and borrowed a lot money to buy a real diamond necklace for returning. In the following ten years, this couple suffered more hard works and more stingy life to pay off the debt. At last, M.s Loisel ran into her friend again and knew that the necklace she borrowed was paste in stead of diamond";
-
-    $('#sample2').click(function() {
-        $('#checktext').val("stuff");
-    })
-
-
 
     $('#analyze-button').click(function() {
           doit();
@@ -274,6 +264,23 @@
                   $("#num1").text(bgr);
                   $("#num2").text(msg.statsResult.fkgl);
                   $("#num3").text(aspw);
+
+                  var options = {
+                    useEasing : true, 
+                    useGrouping : true, 
+                    separator : ',', 
+                    decimal : '.', 
+                    prefix : '', 
+                    suffix : '' 
+                  };
+
+                  var num1Anim = new CountUp("num1", 0, bgr, 2, 2, options);
+                  var num2Anim = new CountUp("num2", 0, msg.statsResult.fkgl, 2, 2, options);
+                  var num3Anim = new CountUp("num3", 0, aspw, 2, 2, options);
+
+                  num1Anim.start();
+                  num2Anim.start();
+                  num3Anim.start();
 
                   $('#barChartDiv').css (
                       {
