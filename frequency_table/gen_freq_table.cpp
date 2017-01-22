@@ -121,6 +121,29 @@ map<vector<string>, double> computeBigramLogFrequencies(const char *corpusName) 
     }
 
 
+    printf("Adding extra wikipedia bigrams...\n");
+    ifstream wp_2gram("wp_2gram.txt");
+    uint64_t wpIdx = 0;
+    while(wp_2gram.good()) {
+        string word1;
+        string word2;
+        uint64_t count;
+        wp_2gram >> count >> word1 >> word2;
+        vector<string> bigram = {word1, word2};
+
+
+        counts[bigram] += count;
+        totalCount += count;
+
+
+        if(wpIdx % 100000 == 0) {
+            double progress = 100 * wpIdx / 92650278.0;
+            printf("[%.2g%%]  Added %llu bigrams\n", progress, wpIdx);
+        }
+        wpIdx++;
+    }
+
+
     // Then, we compute the log probabilities like so:
     // ln(P) = ln(count / totalCount) = ln(count) - ln(totalCount)
     double totalCountLog = log(totalCount);
@@ -180,6 +203,27 @@ map<vector<string>, double> computeMonogramLogFrequencies(const char *corpusName
 
         counts[monogram] += count;
         totalCount += count;
+    }
+
+
+    printf("Adding extra wikipedia monograms...\n");
+    ifstream wp1gram("wp_1gram.txt");
+    uint64_t wpIdx = 0;
+    while(wp1gram.good()) {
+        string word;
+        uint64_t count;
+        wp1gram >> count >> word;
+        vector<string> monogram = {word};
+
+
+        counts[monogram] += count;
+        totalCount += count;
+
+        if(wpIdx % 100000 == 0) {
+            double progress = 100 * wpIdx / 7955768.0;
+            printf("[%.2g%%]  Added %llu monograms\n", progress, wpIdx);
+        }
+        wpIdx++;
     }
 
     // Then, we compute the log probabilities like so:

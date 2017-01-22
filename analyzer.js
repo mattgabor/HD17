@@ -160,6 +160,7 @@ function chainLogProbability(bigrams) {
 function _analyze(text) {
 	let bigrams = Bigram.parseBigrams(text);
 	let logProb = chainLogProbability(bigrams);
+	console.log(JSON.stringify(bigrams, null, 4));
 
     return {
     	"overallLogProbability": logProb,
