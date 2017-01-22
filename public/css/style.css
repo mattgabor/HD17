@@ -39,3 +39,17 @@ footer {
   height: 375px;
   margin-bottom: 15px;
 }
+
+#uglyButton {
+  visibility: hidden;
+}
+
+#checktext {
+  height: 400px;
+}
+
+.outer-textbox {
+  border: solid gray 2px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}

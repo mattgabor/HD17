@@ -12,7 +12,8 @@
     "prompt-sync": "^4.1.4",
     "quill": "^1.2.0",
     "text-statistics": "^0.1.1",
-    "watson-developer-cloud": "^2.15.2"
+    "watson-developer-cloud": "^2.15.2",
+    "text-statistics": "latest"
   },
   "devDependencies": {},
   "scripts": {
