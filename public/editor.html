@@ -143,6 +143,23 @@
 
         <!-- Main page content -->
         <div class="analytics" style="display:none">
+            <div class="numbers">
+                <div class="dataPoint">
+                    <h1 class="numstat">14</h1>
+                    <h4>Donald Markovian Bigram</h4>
+                    <h5 class="desc">Descripton</h5>
+                </div>
+                <div class="dataPoint">
+                    <h1 class="numstat">13</h1>
+                    <h4>Flesch–Kincaid Grade Level</h4>
+                    <h5 class="desc">Description</h5>
+                </div>
+                <div class="dataPoint">
+                    <h1 class="numstat">14</h1>
+                    <h4>Average Syllables per word</h4>
+                    <h5 class="desc">Descripton</h5>
+                </div>
+            </div>
             <!-- <div class="chart"> -->
                 <div id="barChartDiv">
                     <canvas id="barChart"></canvas>
@@ -209,7 +226,6 @@
               {
                 //   'height': '600px',
                   'width': '100%',
-                  'margin-bottom': '20px',
                   'display': 'block'
               }
           );
@@ -241,7 +257,7 @@
                   $('#barChartDiv').css (
                       {
                           'display': 'inline-block',
-                          'height': '500px',
+                          'height': '400px',
                           'width': '48%',
                       }
                   )
@@ -250,17 +266,16 @@
                           'display': 'inline-block',
                           'height': '400px',
                           'width': '48%',
-                          'margin-bottom': '100px'
                       }
                   )
                   plot("bar",
-                      ["Letters per Sentence", "Words per Sentence", "Letters per Word", "Syllables per Word"],
+                      ["Letters per Sent", "Words per Sent", "Letters per Word", "Syllables per Word"],
                       [65, 59, 90, 81],
                       [28, 48, 40, 19],
                       "barChart"
                   );
                   plot("radar",
-                      ["Letters per Sentence", "Words per Sentence", "Letters per Word", "Syllables per Word", "asf"],
+                      ["Letters per Sent", "Words per Sent", "Letters per Word", "Syllables per Word", "asf"],
                       [65, 59, 90, 81, 45],
                       [28, 48, 40, 19, 51],
                       "radar"
