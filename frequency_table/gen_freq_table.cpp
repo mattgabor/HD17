@@ -125,6 +125,56 @@ map<vector<string>, double> computeBigramLogFrequencies(const char *corpusName) 
 
 
 
+
+map<vector<string>, double> computeMonogramLogFrequencies(const char *corpusName) {
+    string corpusStr = filterChars(readWholeFile(corpusName));
+
+    std::transform(corpusStr.begin(), corpusStr.end(), corpusStr.begin(), ::tolower);
+
+    vector<string> corpus = split(corpusStr, ' ');
+
+    // First, we count up all monogram occurences as integers
+    int totalCount = 0;
+    map<vector<string>, uint64_t> counts;
+    for (int i = 0; i < corpus.size(); i++) {
+        string c1 = corpus[i];
+        vector<string> monogram = {c1};
+
+        counts[monogram]++;
+
+        totalCount++;
+
+        if(totalCount % 10000 == 0) {
+            double progress = 100 * (i + 2) / corpus.size();
+            printf("[%.2g%%]  Analyzed %d monograms\n", progress, totalCount);
+        }
+    }
+
+
+    // Then, we compute the log probabilities like so:
+    // ln(P) = ln(count / totalCount) = ln(count) - ln(totalCount)
+    double totalCountLog = log(totalCount);
+    map<vector<string>, double> logFreqs;
+
+    printf("Normalizing probabilities...\n");
+    for (auto it = counts.begin(); it != counts.end(); ++it) {
+        vector<string> monogram = it->first;
+        uint64_t count = it->second;
+        if (count == 0) {
+            logFreqs[monogram] = -100;
+        } else {
+            logFreqs[monogram] = log(count) - totalCountLog;
+        }
+    }
+
+    return logFreqs;
+}
+
+
+
+
+
+
 int main(int argc, char **argv) {
 
     if(argc != 3) {
@@ -133,15 +183,24 @@ int main(int argc, char **argv) {
     }
 
     // Compute frequencies
-    map<vector<string>, double> freqs = computeBigramLogFrequencies(argv[1]);
+    map<vector<string>, double> monogramFreqs = computeMonogramLogFrequencies(argv[1]);
+    map<vector<string>, double> bigramFreqs = computeBigramLogFrequencies(argv[1]);
 
 
     json jsonFreq;
-    for(auto it = freqs.begin(); it != freqs.end(); ++it) {
+    for(auto it = monogramFreqs.begin(); it != monogramFreqs.end(); ++it) {
         vector<string> gram = it->first;
         string gramStr = join(gram, "-");
 
-        jsonFreq[gramStr] = it->second;
+        jsonFreq["monograms"][gramStr] = it->second;
+    }
+
+
+    for(auto it = bigramFreqs.begin(); it != bigramFreqs.end(); ++it) {
+        vector<string> gram = it->first;
+        string gramStr = join(gram, "-");
+
+        jsonFreq["bigrams"][gramStr] = it->second;
     }
 
     ofstream outFile(argv[2]);
