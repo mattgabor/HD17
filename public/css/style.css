@@ -53,3 +53,24 @@ footer {
   border-radius: 8px;
   margin-bottom: 15px;
 }
+
+.numbers {
+  width: 100%;
+  height: 20%;
+  margin-bottom: 15px;
+}
+
+.numstat {
+  margin-top: 0;
+  font-size: 80px;
+}
+
+.desc {
+  color: #B6B6B6
+}
+
+.dataPoint {
+  text-align: center;
+  width: 33%;
+  display: inline-block;
+}

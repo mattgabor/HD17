@@ -68,7 +68,7 @@ function plot(type, labels, yourData, averageData, id) {
 			scales: {
 				xAxes: [{
 					ticks: {
-						fontSize: 10
+						fontSize: 12
 					}
 				}]
 			}
