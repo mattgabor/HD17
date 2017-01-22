@@ -36,8 +36,8 @@ function plot(type, labels, yourData, averageData, id) {
 		var opts = {
 			maintainAspectRatio: false,
 			scale: {
-				ticks: {
-					fontSize: 18
+				pointLabels: {
+					fontSize: 12
 				}
 			}
 		};
@@ -68,7 +68,7 @@ function plot(type, labels, yourData, averageData, id) {
 			scales: {
 				xAxes: [{
 					ticks: {
-						fontSize: 18
+						fontSize: 10
 					}
 				}]
 			}
@@ -80,6 +80,6 @@ function plot(type, labels, yourData, averageData, id) {
 	var myRadarChart = new Chart(ctx, {
 		type: type,
 		data: data,
-		options: opts
+		options: opts,
 	});
 }
