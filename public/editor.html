@@ -27,6 +27,10 @@
     <script language="javascript" type="text/javascript">
       tinyMCE.init({
          mode : "textareas",
+         theme : "advanced",
+         force_br_newlines : false,
+         force_p_newlines : false,
+         forced_root_block : '',
          plugins : "AtD,paste",
          paste_text_sticky : true,
          setup : function(ed) {
@@ -138,9 +142,10 @@
         <div class="outer-textbox">
             <!-- LANGUAGETOOL TEXTBOX -->
             <form name="checkform" action="http://community.languagetool.org" method="post">
-              <p id="checktextpara" class="rounded">
-                  <textarea id="checktext" name="text" style="width: 100%"
-                    rows="6">"The Necklace", by Gue de Maupassant, is a story about a woman named Ms. Loisel. she was petty and charming. She married a common little clark. Her life was in poverty and depression. One day, She and her husband received an invitation to attend a ball. To conceal her impoverished family situations and show off her charm and beauty, she borrowed a necklace from her friend. Then, at the ball she did have a wonderful time. However, she lost the necklace after the ball. The poor woman and her husband had to spend up all their saving and borrowed a lot money to buy a real diamond necklace for returning. In the following ten years, this couple suffered more hard works and more stingy life to pay off the debt. At last, M.s Loisel ran into her friend again and knew that the necklace she borrowed was paste in stead of diamond.</textarea>
+              <p id="checktextpara">
+                  <textarea id="checktext" name="text" style="width: 100%" rows="6">
+                    "The Necklace", by Gue de Maupassant, is a story about a woman named Ms. Loisel. she was petty and charming. She married a common little clark. Her life was in poverty and depression. One day, She and her husband received an invitation to attend a ball. To conceal her impoverished family situations and show off her charm and beauty, she borrowed a necklace from her friend. Then, at the ball she did have a wonderful time. However, she lost the necklace after the ball. The poor woman and her husband had to spend up all their saving and borrowed a lot money to buy a real diamond necklace for returning. In the following ten years, this couple suffered more hard works and more stingy life to pay off the debt. At last, M.s Loisel ran into her friend again and knew that the necklace she borrowed was paste in stead of diamond.
+                </textarea>
               </p>
               <div id="uglyButton">
                   <select name="lang" id="lang">
@@ -188,18 +193,24 @@
       $('#analyze-button').click(function() {
 
           doit();
-          return false;
+          let userText = tinymce.get('checktext').getContent();
 
-        //   $.ajax({
-        //       type: "POST",
-        //       url: "/analyze",
-        //       data: {
-        //           toAnalyze: userText
-        //       },
-        //       success: function(msg) {
-        //           console.log(msg);
-        //       }
-        //   });
+          $('.outer-textbox').css(
+              {
+                  'width': '50%'
+              }
+          );
+
+          $.ajax({
+              type: "POST",
+              url: "/analyze",
+              data: {
+                  toAnalyze: userText
+              },
+              success: function(msg) {
+                  console.log(msg);
+              }
+          });
 
         //   $.ajax({
         //       type: "POST",

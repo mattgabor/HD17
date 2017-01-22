@@ -87,7 +87,7 @@ class Word {
 			let endIndex = text.length;
 			let wordText = text.substring(startIndex, endIndex);
 			let norm = normalizeText(wordText);
-				
+
 			words.push(new Word(norm, startIndex, endIndex));
 		}
 
@@ -160,7 +160,7 @@ function _analyze(text) {
 	let logProb = chainLogProbability(bigrams);
 
     return {
-    	"overallLogProbability": logProb, 
+    	"overallLogProbability": logProb,
     	"bigrams": bigrams
     };
 }
