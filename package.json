@@ -13,7 +13,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "table": "cd frequency_table; ./build.sh; ./gen_freq_table.o whole.txt ../table.json"
   },
   "repository": {
     "type": "git",
