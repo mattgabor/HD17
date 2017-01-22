@@ -21,10 +21,16 @@ footer {
 }
 
 .jumbotron {
-    padding-top: 10px;
+    padding-top: 1px;
     padding-bottom: 10px;
 }
 
 .col-md-3 {
     width: 33%;
+}
+
+#instructions{
+  text-align: center;
+  padding-bottom: 1px;
+  padding-top: 10px;
 }
