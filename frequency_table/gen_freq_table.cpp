@@ -86,7 +86,7 @@ map<vector<string>, double> computeBigramLogFrequencies(const char *corpusName) 
     vector<string> corpus = split(corpusStr, ' ');
 
     // First, we count up all bigram occurences as integers
-    int totalCount = 0;
+    uint64_t totalCount = 0;
     map<vector<string>, uint64_t> counts;
     for (int i = 0; i < corpus.size() - 1; i++) {
         string c1 = corpus[i];
@@ -99,8 +99,23 @@ map<vector<string>, double> computeBigramLogFrequencies(const char *corpusName) 
 
         if(totalCount % 10000 == 0) {
             double progress = 100 * (i + 2) / corpus.size();
-            printf("[%.2g%%]  Analyzed %d bigrams\n", progress, totalCount);
+            printf("[%.2g%%]  Analyzed %llu bigrams\n", progress, totalCount);
         }
+    }
+
+
+    printf("Adding extra bigrams...\n");
+    ifstream count2w("count_2w.txt");
+    while(count2w.good()) {
+        string word1;
+        string word2;
+        uint64_t count;
+        count2w >> word1 >> word2 >> count;
+        vector<string> bigram = {word1, word2};
+
+
+        counts[bigram] += count;
+        totalCount += count;
     }
 
 
@@ -134,7 +149,7 @@ map<vector<string>, double> computeMonogramLogFrequencies(const char *corpusName
     vector<string> corpus = split(corpusStr, ' ');
 
     // First, we count up all monogram occurences as integers
-    int totalCount = 0;
+    uint64_t totalCount = 0;
     map<vector<string>, uint64_t> counts;
     for (int i = 0; i < corpus.size(); i++) {
         string c1 = corpus[i];
@@ -146,10 +161,24 @@ map<vector<string>, double> computeMonogramLogFrequencies(const char *corpusName
 
         if(totalCount % 10000 == 0) {
             double progress = 100 * (i + 2) / corpus.size();
-            printf("[%.2g%%]  Analyzed %d monograms\n", progress, totalCount);
+            printf("[%.2g%%]  Analyzed %llu monograms\n", progress, totalCount);
         }
     }
 
+
+
+    printf("Adding extra monograms...\n");
+    ifstream count1w("count_1w.txt");
+    while(count1w.good()) {
+        string word;
+        uint64_t count;
+        count1w >> word >> count;
+        vector<string> monogram = {word};
+
+
+        counts[monogram] += count;
+        totalCount += count;
+    }
 
     // Then, we compute the log probabilities like so:
     // ln(P) = ln(count / totalCount) = ln(count) - ln(totalCount)
@@ -185,6 +214,7 @@ int main(int argc, char **argv) {
     // Compute frequencies
     map<vector<string>, double> monogramFreqs = computeMonogramLogFrequencies(argv[1]);
     map<vector<string>, double> bigramFreqs = computeBigramLogFrequencies(argv[1]);
+
 
 
     json jsonFreq;
