@@ -39,6 +39,10 @@ function plot(type, labels, yourData, averageData, id) {
 				pointLabels: {
 					fontSize: 12
 				}
+			},
+			animation: {
+				duration: 3000,
+				easing: "easeOutExpo"
 			}
 		};
 
@@ -71,6 +75,10 @@ function plot(type, labels, yourData, averageData, id) {
 						fontSize: 12
 					}
 				}]
+			},
+			animation: {
+				duration: 3000,
+				easing: "easeOutExpo"
 			}
 		};
 	}
