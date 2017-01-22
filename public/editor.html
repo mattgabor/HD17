@@ -260,8 +260,10 @@
                 var ari = msg.statsResult.ari;
 
                 var bgr = Number((msg.bigramResult.overallLogProbability).toFixed(1)) + 20;
+                var bgrn = Number((msg.bigramResult.overallNormalizedLogProbability).toFixed(1));
 
-                  $("#num1").text(bgr);
+
+                  $("#num1").text(bgrn);
                   $("#num2").text(msg.statsResult.fkgl);
                   $("#num3").text(aspw);
 
@@ -274,7 +276,7 @@
                     suffix : ''
                   };
 
-                  var num1Anim = new CountUp("num1", 0, bgr, 2, 2, options);
+                  var num1Anim = new CountUp("num1", 0, bgrn, 2, 2, options);
                   var num2Anim = new CountUp("num2", 0, msg.statsResult.fkgl, 2, 2, options);
                   var num3Anim = new CountUp("num3", 0, aspw, 2, 2, options);
 
