@@ -114,13 +114,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">About</a>
+                        <a href="#">Sample 1</a>
                     </li>
                     <li>
-                        <a href="#">Services</a>
+                        <a href="#" id="sample2">Sample 2</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="#">Sample 3</a>
                     </li>
                 </ul>
             </div>
@@ -134,7 +134,7 @@
 
         <!-- Jumbotron Header -->
         <header class="jumbotron hero-spacer" id="instructions">
-            <p><b>Write a sentence about your week.</b></p>
+            <p><b>Do you think it is important for people to continue to travel into space? Why or why not? You may want to think about issues, such as: costs, dangers, rewards.</b></p>
             <!-- <p><a class="btn btn-primary btn-large">Call to action!</a> -->
             <!-- </p> -->
         </header>
@@ -145,17 +145,17 @@
         <div class="analytics" style="display:none">
             <div class="numbers">
                 <div class="dataPoint">
-                    <h1 class="numstat" id="num1">14</h1>
+                    <h1 class="numstat" id="num1"></h1>
                     <h4>Donald Markovian Bigram</h4>
                     <h5 class="desc">Descripton</h5>
                 </div>
                 <div class="dataPoint">
-                    <h1 class="numstat" id="num2">13</h1>
+                    <h1 class="numstat" id="num2"></h1>
                     <h4>Flesch–Kincaid Grade Level</h4>
                     <h5 class="desc">Description</h5>
                 </div>
                 <div class="dataPoint">
-                    <h1 class="numstat" id="num3">14</h1>
+                    <h1 class="numstat" id="num3"></h1>
                     <h4>Average Syllables per word</h4>
                     <h5 class="desc">Descripton</h5>
                 </div>
@@ -175,7 +175,7 @@
             <form name="checkform" action="http://community.languagetool.org" method="post">
               <p id="checktextpara">
                   <textarea id="checktext" name="text" style="width: 100%" rows="6">
-                    "The Necklace", by Gue de Maupassant, is a story about a woman named Ms. Loisel. she was petty and charming. She married a common little clark. Her life was in poverty and depression. One day, She and her husband received an invitation to attend a ball. To conceal her impoverished family situations and show off her charm and beauty, she borrowed a necklace from her friend. Then, at the ball she did have a wonderful time. However, she lost the necklace after the ball. The poor woman and her husband had to spend up all their saving and borrowed a lot money to buy a real diamond necklace for returning. In the following ten years, this couple suffered more hard works and more stingy life to pay off the debt. At last, M.s Loisel ran into her friend again and knew that the necklace she borrowed was paste in stead of diamond.
+                    Travel in space is good. Why, because it's good to know about space and everything there, like sun and stars and etc... Because they can see anthing outside the earth but people will do some activities for space for know something.  Some people thinks that space exploration is enjoyable things to do. a danger can happen when you use a think in right time an right place. If people continue to travel into space, I think there will have som things come to anywhere people liv. The: rewards may affect if you do not take it in time or life can happen a problem. When you come back in the earth. They were get many Rawards they are welcome by many rewards.
                 </textarea>
               </p>
               <div id="uglyButton">
@@ -218,13 +218,20 @@
     <!-- Initialize Quill editor -->
     <script>
 
+    var sample2 = "The Necklace, by Gue de Maupassant, is a story about a woman named Ms. Loisel. she was petty and charming. She married a common little clark. Her life was in poverty and depression. One day, She and her husband received an invitation to attend a ball. To conceal her impoverished family situations and show off her charm and beauty, she borrowed a necklace from her friend. Then, at the ball she did have a wonderful time. However, she lost the necklace after the ball. The poor woman and her husband had to spend up all their saving and borrowed a lot money to buy a real diamond necklace for returning. In the following ten years, this couple suffered more hard works and more stingy life to pay off the debt. At last, M.s Loisel ran into her friend again and knew that the necklace she borrowed was paste in stead of diamond";
+
+    $('#sample2').click(function() {
+        $('#checktext').val("stuff");
+    })
+
+
+
     $('#analyze-button').click(function() {
           doit();
           let userText = tinymce.get('checktext').getContent();
 
           $('.analytics').css(
               {
-                //   'height': '600px',
                   'width': '100%',
                   'display': 'block'
               }
@@ -242,8 +249,6 @@
               }
           );
 
-
-
           $.ajax({
               type: "POST",
               url: "/analyze",
@@ -252,8 +257,20 @@
               },
               success: function(msg) {
 
-                  var bgr = Number((msg.bigramResult.overallLogProbability).toFixed(1))
-                  var aspw = Number((msg.statsResult.averageSyllablesPerWord).toFixed(1))
+                var wpse = Number((msg.statsResult.averageWordsPerSentence).toFixed(2));
+                var aspw = Number((msg.statsResult.averageSyllablesPerWord).toFixed(2));
+                var twosyl = Number((msg.statsResult.wordsWithTwoSyllables).toFixed(1));
+                var threesyl = Number((msg.statsResult.wordsWithThreeSyllables).toFixed(1));
+                var foursyl = Number((msg.statsResult.wordsWithMoreThanThreeSyllables).toFixed(1));
+                var lpw =  Number((msg.statsResult.letterCount/msg.statsResult.wordCount).toFixed(1));
+
+                var fkgl = msg.statsResult.fkgl;
+                var gfs = msg.statsResult.gfs;
+                var si = msg.statsResult.si;
+                var ari = msg.statsResult.ari;
+
+                var bgr = Number((msg.bigramResult.overallLogProbability).toFixed(1));
+
                   $("#num1").text(bgr);
                   $("#num2").text(msg.statsResult.fkgl);
                   $("#num3").text(aspw);
@@ -273,15 +290,16 @@
                       }
                   )
                   plot("bar",
-                      ["Letters per Sent", "Words per Sent", "Letters per Word", "Syllables per Word"],
-                      [65, 59, 90, 81],
-                      [28, 48, 40, 19],
+                      ["Flesh-Kincaid", "Gunning Fog", "Smog Index", "Automated Read"],
+                      [fkgl, gfs, si, ari],
+                      // static data for now
+                      [4.0, 4.3, 2.2, 3.1],
                       "barChart"
                   );
                   plot("radar",
-                      ["Letters per Sent", "Words per Sent", "Letters per Word", "Syllables per Word", "asf"],
-                      [65, 59, 90, 81, 45],
-                      [28, 48, 40, 19, 51],
+                      ["Avg Words per Sent.", "Avg Syl per Word.", "Avg Letters per Word", "Gunning Fog", "Smog Index", "Automated Read"],
+                      [aspw, aspw, lpw/3, gfs/3, si/1.5, ari/3],
+                      [1.6, 1.4, 1.5, 1.2, 1.3, 1.3],
                       "radar"
                   );
                   console.log(msg);
