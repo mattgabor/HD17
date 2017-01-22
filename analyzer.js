@@ -6,6 +6,7 @@ var frequencyTable = {};
 try {
 	frequencyTable = JSON.parse(fs.readFileSync('table.json', 'utf8'));
 } catch(err) {
+	console.error(err);
 	console.error('Failed to load table.json, to generate it run:\nnpm run-script table');
 	process.exit(1);
 }

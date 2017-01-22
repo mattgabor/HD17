@@ -20,45 +20,45 @@ using namespace std;
 const double NOT_FOUND = -20;
 
 void split(const std::string &s, char delim, std::vector<std::string> &elems) {
-    std::stringstream ss;
-    ss.str(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        if (!item.empty()) {
-            elems.push_back(item);
+        std::stringstream ss;
+        ss.str(s);
+        std::string item;
+        while (std::getline(ss, item, delim)) {
+                if (!item.empty()) {
+                        elems.push_back(item);
+                }
         }
-    }
 }
 
 std::vector<std::string> split(const std::string &s, char delim) {
-    std::vector<std::string> elems;
-    split(s, delim, elems);
-    return elems;
+        std::vector<std::string> elems;
+        split(s, delim, elems);
+        return elems;
 }
 
 
 string join(const vector<string> &v, const string sep) {
-    ostringstream oss;
+        ostringstream oss;
 
-    for(auto it = v.begin(); it != v.end(); ++it) {
-        if (it == v.begin()) {
-            oss << *it;
-        } else {
-            oss << sep << *it;
+        for(auto it = v.begin(); it != v.end(); ++it) {
+                if (it == v.begin()) {
+                        oss << *it;
+                } else {
+                        oss << sep << *it;
+                }
         }
-    }
-    return oss.str();
+        return oss.str();
 }
 
 string filterChars(const string &s) {
-    string res = "";
-    for(uint64_t i = 0; i < s.length(); i++) {
-        char c = s[i];
-        if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == ' ')) {
-            res += c;
+        string res = "";
+        for(uint64_t i = 0; i < s.length(); i++) {
+                char c = s[i];
+                if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == ' ')) {
+                        res += c;
+                }
         }
-    }
-    return res;
+        return res;
 }
 
 
@@ -66,183 +66,193 @@ string filterChars(const string &s) {
 // From http://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring
 // 1st answer
 string readWholeFile(const char *fName) {
-    ifstream t(fName);
-    std::string str;
+        ifstream t(fName);
+        std::string str;
 
-    t.seekg(0, std::ios::end);   
-    str.reserve(t.tellg());
-    t.seekg(0, std::ios::beg);
+        t.seekg(0, std::ios::end);
+        str.reserve(t.tellg());
+        t.seekg(0, std::ios::beg);
 
-    str.assign((std::istreambuf_iterator<char>(t)),
-                std::istreambuf_iterator<char>());
+        str.assign((std::istreambuf_iterator<char>(t)),
+                   std::istreambuf_iterator<char>());
 
-    return str;
+        return str;
 }
 
 
 map<vector<string>, double> computeBigramLogFrequencies(const char *corpusName) {
-    string corpusStr = filterChars(readWholeFile(corpusName));
+        string corpusStr = filterChars(readWholeFile(corpusName));
 
-    std::transform(corpusStr.begin(), corpusStr.end(), corpusStr.begin(), ::tolower);
+        std::transform(corpusStr.begin(), corpusStr.end(), corpusStr.begin(), ::tolower);
 
-    vector<string> corpus = split(corpusStr, ' ');
+        vector<string> corpus = split(corpusStr, ' ');
 
-    // First, we count up all bigram occurences as integers
-    uint64_t totalCount = 0;
-    map<vector<string>, uint64_t> counts;
-    for (int i = 0; i < corpus.size() - 1; i++) {
-        string c1 = corpus[i];
-        string c2 = corpus[i+1];
-        vector<string> bigram = {c1, c2};
+        // First, we count up all bigram occurences as integers
+        uint64_t totalCount = 0;
+        map<vector<string>, uint64_t> counts;
+        for (int i = 0; i < corpus.size() - 1; i++) {
+                string c1 = corpus[i];
+                string c2 = corpus[i+1];
+                vector<string> bigram = {c1, c2};
 
-        counts[bigram]++;
+                counts[bigram]++;
 
-        totalCount++;
+                totalCount++;
 
-        if(totalCount % 10000 == 0) {
-            double progress = 100 * (i + 2) / corpus.size();
-            printf("[%.2g%%]  Analyzed %llu bigrams\n", progress, totalCount);
+                if(totalCount % 10000 == 0) {
+                        double progress = 100 * (i + 2) / corpus.size();
+                        printf("[%.2g%%]  Analyzed %llu bigrams\n", progress, totalCount);
+                }
         }
-    }
 
 
-    printf("Adding extra bigrams...\n");
-    ifstream count2w("count_2w.txt");
-    while(count2w.good()) {
-        string word1;
-        string word2;
-        uint64_t count;
-        count2w >> word1 >> word2 >> count;
-        vector<string> bigram = {word1, word2};
+        printf("Adding extra bigrams...\n");
+        ifstream count2w("count_2w.txt");
+        while(count2w.good()) {
+                string word1;
+                string word2;
+                uint64_t count;
+                count2w >> word1 >> word2 >> count;
+                vector<string> bigram = {word1, word2};
 
 
-        counts[bigram] += count;
-        totalCount += count;
-    }
-
-
-    printf("Adding extra wikipedia bigrams...\n");
-    ifstream wp_2gram("wp_2gram.txt");
-    uint64_t wpIdx = 0;
-    while(wp_2gram.good()) {
-        string word1;
-        string word2;
-        uint64_t count;
-        wp_2gram >> count >> word1 >> word2;
-        vector<string> bigram = {word1, word2};
-
-
-        counts[bigram] += count;
-        totalCount += count;
-
-
-        if(wpIdx % 100000 == 0) {
-            double progress = 100 * wpIdx / 92650278.0;
-            printf("[%.2g%%]  Added %llu bigrams\n", progress, wpIdx);
+                counts[bigram] += count;
+                totalCount += count;
         }
-        wpIdx++;
-    }
 
 
-    // Then, we compute the log probabilities like so:
-    // ln(P) = ln(count / totalCount) = ln(count) - ln(totalCount)
-    double totalCountLog = log(totalCount);
-    map<vector<string>, double> logFreqs;
+        printf("Adding extra wikipedia bigrams...\n");
+        ifstream wp_2gram("wp_2gram.txt");
+        uint64_t wpIdx = 0;
+        while(wp_2gram.good()) {
+                string word1;
+                string word2;
+                uint64_t count;
+                wp_2gram >> count >> word1 >> word2;
+                if(count <= 13) {
+                        wpIdx++;
+                        continue;
+                }
 
-    printf("Normalizing probabilities...\n");
-    for (auto it = counts.begin(); it != counts.end(); ++it) {
-        vector<string> bigram = it->first;
-        uint64_t count = it->second;
-        if (count == 0) {
-            logFreqs[bigram] = NOT_FOUND;
-        } else {
-            logFreqs[bigram] = log(count) - totalCountLog;
+                vector<string> bigram = {word1, word2};
+
+
+                counts[bigram] += count;
+                totalCount += count;
+
+
+                if(wpIdx % 100000 == 0) {
+                        double progress = 100 * wpIdx / 92650278.0;
+                        printf("[%.2g%%]  Added %llu bigrams\n", progress, wpIdx);
+                }
+                wpIdx++;
         }
-    }
 
-    return logFreqs;
+
+        // Then, we compute the log probabilities like so:
+        // ln(P) = ln(count / totalCount) = ln(count) - ln(totalCount)
+        double totalCountLog = log(totalCount);
+        map<vector<string>, double> logFreqs;
+
+        printf("Normalizing probabilities...\n");
+        for (auto it = counts.begin(); it != counts.end(); ++it) {
+                vector<string> bigram = it->first;
+                uint64_t count = it->second;
+                if (count == 0) {
+                        logFreqs[bigram] = NOT_FOUND;
+                } else {
+                        logFreqs[bigram] = log(count) - totalCountLog;
+                }
+        }
+
+        return logFreqs;
 }
 
 
 
 
 map<vector<string>, double> computeMonogramLogFrequencies(const char *corpusName) {
-    string corpusStr = filterChars(readWholeFile(corpusName));
+        string corpusStr = filterChars(readWholeFile(corpusName));
 
-    std::transform(corpusStr.begin(), corpusStr.end(), corpusStr.begin(), ::tolower);
+        std::transform(corpusStr.begin(), corpusStr.end(), corpusStr.begin(), ::tolower);
 
-    vector<string> corpus = split(corpusStr, ' ');
+        vector<string> corpus = split(corpusStr, ' ');
 
-    // First, we count up all monogram occurences as integers
-    uint64_t totalCount = 0;
-    map<vector<string>, uint64_t> counts;
-    for (int i = 0; i < corpus.size(); i++) {
-        string c1 = corpus[i];
-        vector<string> monogram = {c1};
+        // First, we count up all monogram occurences as integers
+        uint64_t totalCount = 0;
+        map<vector<string>, uint64_t> counts;
+        for (int i = 0; i < corpus.size(); i++) {
+                string c1 = corpus[i];
+                vector<string> monogram = {c1};
 
-        counts[monogram]++;
+                counts[monogram]++;
 
-        totalCount++;
+                totalCount++;
 
-        if(totalCount % 10000 == 0) {
-            double progress = 100 * (i + 2) / corpus.size();
-            printf("[%.2g%%]  Analyzed %llu monograms\n", progress, totalCount);
+                if(totalCount % 10000 == 0) {
+                        double progress = 100 * (i + 2) / corpus.size();
+                        printf("[%.2g%%]  Analyzed %llu monograms\n", progress, totalCount);
+                }
         }
-    }
 
 
 
-    printf("Adding extra monograms...\n");
-    ifstream count1w("count_1w.txt");
-    while(count1w.good()) {
-        string word;
-        uint64_t count;
-        count1w >> word >> count;
-        vector<string> monogram = {word};
+        printf("Adding extra monograms...\n");
+        ifstream count1w("count_1w.txt");
+        while(count1w.good()) {
+                string word;
+                uint64_t count;
+                count1w >> word >> count;
+                vector<string> monogram = {word};
 
 
-        counts[monogram] += count;
-        totalCount += count;
-    }
-
-
-    printf("Adding extra wikipedia monograms...\n");
-    ifstream wp1gram("wp_1gram.txt");
-    uint64_t wpIdx = 0;
-    while(wp1gram.good()) {
-        string word;
-        uint64_t count;
-        wp1gram >> count >> word;
-        vector<string> monogram = {word};
-
-
-        counts[monogram] += count;
-        totalCount += count;
-
-        if(wpIdx % 100000 == 0) {
-            double progress = 100 * wpIdx / 7955768.0;
-            printf("[%.2g%%]  Added %llu monograms\n", progress, wpIdx);
+                counts[monogram] += count;
+                totalCount += count;
         }
-        wpIdx++;
-    }
 
-    // Then, we compute the log probabilities like so:
-    // ln(P) = ln(count / totalCount) = ln(count) - ln(totalCount)
-    double totalCountLog = log(totalCount);
-    map<vector<string>, double> logFreqs;
 
-    printf("Normalizing probabilities...\n");
-    for (auto it = counts.begin(); it != counts.end(); ++it) {
-        vector<string> monogram = it->first;
-        uint64_t count = it->second;
-        if (count == 0) {
-            logFreqs[monogram] = NOT_FOUND;
-        } else {
-            logFreqs[monogram] = log(count) - totalCountLog;
+        printf("Adding extra wikipedia monograms...\n");
+        ifstream wp1gram("wp_1gram.txt");
+        uint64_t wpIdx = 0;
+        while(wp1gram.good()) {
+                string word;
+                uint64_t count;
+                wp1gram >> count >> word;
+                if(count <= 8) {
+                        wpIdx++;
+                        continue;
+                }
+
+                vector<string> monogram = {word};
+
+
+                counts[monogram] += count;
+                totalCount += count;
+
+                if(wpIdx % 100000 == 0) {
+                        double progress = 100 * wpIdx / 7955768.0;
+                        printf("[%.2g%%]  Added %llu monograms\n", progress, wpIdx);
+                }
+                wpIdx++;
         }
-    }
 
-    return logFreqs;
+        // Then, we compute the log probabilities like so:
+        // ln(P) = ln(count / totalCount) = ln(count) - ln(totalCount)
+        double totalCountLog = log(totalCount);
+        map<vector<string>, double> logFreqs;
+
+        printf("Normalizing probabilities...\n");
+        for (auto it = counts.begin(); it != counts.end(); ++it) {
+                vector<string> monogram = it->first;
+                uint64_t count = it->second;
+                if (count == 0) {
+                        logFreqs[monogram] = NOT_FOUND;
+                } else {
+                        logFreqs[monogram] = log(count) - totalCountLog;
+                }
+        }
+
+        return logFreqs;
 }
 
 
@@ -252,35 +262,35 @@ map<vector<string>, double> computeMonogramLogFrequencies(const char *corpusName
 
 int main(int argc, char **argv) {
 
-    if(argc != 3) {
-        cout << "Usage: ./substitution [corpus] [outputJSON]" << endl;
-        return -1;
-    }
+        if(argc != 3) {
+                cout << "Usage: ./substitution [corpus] [outputJSON]" << endl;
+                return -1;
+        }
 
-    // Compute frequencies
-    map<vector<string>, double> monogramFreqs = computeMonogramLogFrequencies(argv[1]);
-    map<vector<string>, double> bigramFreqs = computeBigramLogFrequencies(argv[1]);
-
-
-
-    json jsonFreq;
-    for(auto it = monogramFreqs.begin(); it != monogramFreqs.end(); ++it) {
-        vector<string> gram = it->first;
-        string gramStr = join(gram, "-");
-
-        jsonFreq["monograms"][gramStr] = it->second;
-    }
+        // Compute frequencies
+        map<vector<string>, double> monogramFreqs = computeMonogramLogFrequencies(argv[1]);
+        map<vector<string>, double> bigramFreqs = computeBigramLogFrequencies(argv[1]);
 
 
-    for(auto it = bigramFreqs.begin(); it != bigramFreqs.end(); ++it) {
-        vector<string> gram = it->first;
-        string gramStr = join(gram, "-");
 
-        jsonFreq["bigrams"][gramStr] = it->second;
-    }
+        json jsonFreq;
+        for(auto it = monogramFreqs.begin(); it != monogramFreqs.end(); ++it) {
+                vector<string> gram = it->first;
+                string gramStr = join(gram, "-");
 
-    ofstream outFile(argv[2]);
+                jsonFreq["monograms"][gramStr] = it->second;
+        }
 
-    cout << "Writing to JSON file..." << endl;
-    outFile << jsonFreq << endl; 
+
+        for(auto it = bigramFreqs.begin(); it != bigramFreqs.end(); ++it) {
+                vector<string> gram = it->first;
+                string gramStr = join(gram, "-");
+
+                jsonFreq["bigrams"][gramStr] = it->second;
+        }
+
+        ofstream outFile(argv[2]);
+
+        cout << "Writing to JSON file..." << endl;
+        outFile << jsonFreq << endl;
 }
