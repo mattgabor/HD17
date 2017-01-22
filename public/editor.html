@@ -259,19 +259,19 @@
                 var si = msg.statsResult.si;
                 var ari = msg.statsResult.ari;
 
-                var bgr = Number((msg.bigramResult.overallLogProbability).toFixed(1));
+                var bgr = Number((msg.bigramResult.overallLogProbability).toFixed(1)) + 20;
 
                   $("#num1").text(bgr);
                   $("#num2").text(msg.statsResult.fkgl);
                   $("#num3").text(aspw);
 
                   var options = {
-                    useEasing : true, 
-                    useGrouping : true, 
-                    separator : ',', 
-                    decimal : '.', 
-                    prefix : '', 
-                    suffix : '' 
+                    useEasing : true,
+                    useGrouping : true,
+                    separator : ',',
+                    decimal : '.',
+                    prefix : '',
+                    suffix : ''
                   };
 
                   var num1Anim = new CountUp("num1", 0, bgr, 2, 2, options);
