@@ -25,6 +25,23 @@ app.post('/analyze', function(req, res) {
   res.send(JSON.stringify(result));
 });
 
+
+app.get('/prompt', function(req, res) {
+  var difficulty = req.query.difficulty;
+  var prompt;
+
+  if (difficulty == "easy") {
+    prompt = "Compare your home, village or city to the place you live at now. Describe things that are the same and different."
+  } else if (difficulty == "intermediate") {
+    prompt = "Do you think it is important for people to continue to travel into space? Why or why not? You may want to think about issues, such as: costs, dangers, rewards."
+  } else {
+    prompt = "Have North Americans become too dependent on the automobile for travel?"
+  }
+
+  res.type('text');
+  res.send(prompt);
+});
+
 app.use(express.static('./public'));
 http.createServer(app).listen(8080);
 console.log('Server started on localhost:8080');
