@@ -74,3 +74,26 @@ footer {
   width: 33%;
   display: inline-block;
 }
+
+#title_text {
+  font-family: 'Lora', serif;
+  font-size: 80px;
+  font-weight: bold;
+}
+
+#w_format {
+  font-size: 90px;
+  letter-spacing: -5px;
+  color: #287db9;
+}
+
+#r_format {
+  font-size: 90px;
+  color: #19bc9c;
+}
+
+#subtitle {
+  margin-left: 10px;
+  font-size: 25px;
+  font-weight: 300;
+}
