@@ -1,0 +1,33 @@
+<html>
+<head>
+<script src="js/Chart.js"></script>
+<script src="js/EasyChart.js"></script>
+
+<style type="text/css">
+.container {
+	width: 50%;
+	margin: 15px auto;
+}
+</style>
+
+</head>
+
+
+<body>
+	<div class="container">
+		<h2>Chart.js Demo</h2>
+		<div>
+			<canvas id="myChart"></canvas>
+		</div>
+	</div>
+
+	<script>
+		plot("bar", 
+			["Letters per Sentence", "Words per Sentence", "Letters per Word", "Syllables per Word", "asf"], 
+			[65, 59, 90, 81, 45], 
+			[28, 48, 40, 19, 51], 
+			"myChart"
+		);
+	</script>
+</body>
+</html>
