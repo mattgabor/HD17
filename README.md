@@ -1,6 +1,6 @@
 # WriteRight
 
-## Built at HackDavis 17
+## Built at HackDavis '17
 
 A writing improvement tool for non-native English speakers.
 
