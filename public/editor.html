@@ -145,17 +145,17 @@
         <div class="analytics" style="display:none">
             <div class="numbers">
                 <div class="dataPoint">
-                    <h1 class="numstat">14</h1>
+                    <h1 class="numstat" id="num1">14</h1>
                     <h4>Donald Markovian Bigram</h4>
                     <h5 class="desc">Descripton</h5>
                 </div>
                 <div class="dataPoint">
-                    <h1 class="numstat">13</h1>
+                    <h1 class="numstat" id="num2">13</h1>
                     <h4>Flesch–Kincaid Grade Level</h4>
                     <h5 class="desc">Description</h5>
                 </div>
                 <div class="dataPoint">
-                    <h1 class="numstat">14</h1>
+                    <h1 class="numstat" id="num3">14</h1>
                     <h4>Average Syllables per word</h4>
                     <h5 class="desc">Descripton</h5>
                 </div>
@@ -242,6 +242,8 @@
               }
           );
 
+
+
           $.ajax({
               type: "POST",
               url: "/analyze",
@@ -249,11 +251,13 @@
                   toAnalyze: userText
               },
               success: function(msg) {
-                //   $('.chart').css (
-                    //   {
-                        //   'margin': '0 auto'
-                    //   }
-                //   )
+
+                  var bgr = Number((msg.bigramResult.overallLogProbability).toFixed(1))
+                  var aspw = Number((msg.statsResult.averageSyllablesPerWord).toFixed(1))
+                  $("#num1").text(bgr);
+                  $("#num2").text(msg.statsResult.fkgl);
+                  $("#num3").text(aspw);
+
                   $('#barChartDiv').css (
                       {
                           'display': 'inline-block',
