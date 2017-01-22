@@ -17,6 +17,8 @@ using json = nlohmann::json;
 using namespace std;
 
 
+const double NOT_FOUND = -20;
+
 void split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss;
     ss.str(s);
@@ -129,7 +131,7 @@ map<vector<string>, double> computeBigramLogFrequencies(const char *corpusName) 
         vector<string> bigram = it->first;
         uint64_t count = it->second;
         if (count == 0) {
-            logFreqs[bigram] = -100;
+            logFreqs[bigram] = NOT_FOUND;
         } else {
             logFreqs[bigram] = log(count) - totalCountLog;
         }
@@ -190,7 +192,7 @@ map<vector<string>, double> computeMonogramLogFrequencies(const char *corpusName
         vector<string> monogram = it->first;
         uint64_t count = it->second;
         if (count == 0) {
-            logFreqs[monogram] = -100;
+            logFreqs[monogram] = NOT_FOUND;
         } else {
             logFreqs[monogram] = log(count) - totalCountLog;
         }

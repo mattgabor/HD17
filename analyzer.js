@@ -1,5 +1,7 @@
 let fs = require('fs');
 
+let NOT_FOUND = -20;
+
 var frequencyTable = {};
 try {
 	frequencyTable = JSON.parse(fs.readFileSync('table.json', 'utf8'));
@@ -48,7 +50,7 @@ class Word {
 		let p = monogramFrequency[this.normalizedText];
 		if(p === undefined) {
 			console.log("Monogram not found for: " + this.normalizedText);
-			return -100;
+			return NOT_FOUND;
 		} else {
 			return p;
 		}
@@ -105,7 +107,7 @@ class Bigram {
 		var sumWords = 0;
 		for(var i = 0; i < words.length; i++) {
 			var lp = words[i].logProbability;
-			if(lp != -100) {
+			if(lp != NOT_FOUND) {
 				sumWords += lp;
 			}
 		}
@@ -118,7 +120,7 @@ class Bigram {
 		let p = bigramFrequency[wordTexts.join("-")];
 		if(p === undefined) {
 			console.log("Bigram not found for: " + wordTexts);
-			return -100;
+			return NOT_FOUND;
 		} else {
 			return p;
 		}
