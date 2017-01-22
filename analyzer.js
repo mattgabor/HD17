@@ -104,7 +104,10 @@ class Bigram {
 
 		var sumWords = 0;
 		for(var i = 0; i < words.length; i++) {
-			sumWords += words[i].logProbability;
+			var lp = words[i].logProbability;
+			if(lp != -100) {
+				sumWords += lp;
+			}
 		}
 
 		this.normalizedLogProbability = this.logProbability - sumWords;
