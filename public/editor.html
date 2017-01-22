@@ -16,6 +16,8 @@
 
     <!-- Custom CSS -->
     <link href="css/heroic-features.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.2.0/quill.snow.css" rel="stylesheet">
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -82,7 +84,11 @@
 
         <!-- Page Features -->
         <div class="row text-center">
-
+            <div id="editor">
+            <p>Hello World!</p>
+            <p>Some initial <strong>bold</strong> text</p>
+            <p><br></p>
+<         </div>
         </div>
         <!-- /.row -->
 
@@ -105,6 +111,15 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.2.0/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+      var quill = new Quill('#editor', {
+        theme: 'snow'
+      });
+    </script>
+
 
 </body>
 
