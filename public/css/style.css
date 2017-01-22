@@ -34,3 +34,8 @@ footer {
   padding-bottom: 1px;
   padding-top: 10px;
 }
+
+#editor {
+  height: 375px;
+  margin-bottom: 15px;
+}
