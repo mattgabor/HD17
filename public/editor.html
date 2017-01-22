@@ -17,6 +17,9 @@
     <link href="css/style.css" rel="stylesheet">
     <!-- <link href="css/lt-style.css" rel="stylesheet"> -->
 
+    <script src="js/Chart.js"></script>
+    <script src="js/EasyChart.js"></script>
+
     <script type="text/javascript"
     src="https://www.languagetool.org/js/jquery-1.7.0.min.js"></script>
     <script type="text/javascript"
@@ -136,9 +139,13 @@
             <!-- </p> -->
         </header>
 
-        <hr>
+        <hr id ="sep">
 
         <!-- Main page content -->
+        <div class="analytics" style="display:none">
+            <canvas id="myChart" height="200"></canvas>
+        </div>
+
         <div class="outer-textbox">
             <!-- LANGUAGETOOL TEXTBOX -->
             <form name="checkform" action="http://community.languagetool.org" method="post">
@@ -186,18 +193,30 @@
 
     <!-- Initialize Quill editor -->
     <script>
-    //   var quill = new Quill('#editor', {
-    //     theme: 'snow'
-    //   });
 
-      $('#analyze-button').click(function() {
+    $('#analyze-button').click(function() {
 
           doit();
           let userText = tinymce.get('checktext').getContent();
 
-          $('.outer-textbox').css(
+          $('.analytics').css(
               {
-                  'width': '50%'
+                  'height': '570px',
+                  'width': '100%',
+                  'margin-bottom': '20px',
+                  'display': 'block'
+              }
+          );
+
+          $('#instructions').css(
+              {
+                  'display': 'none'
+              }
+          );
+
+          $('#sep').css(
+              {
+                  'display': 'none'
               }
           );
 
@@ -208,6 +227,12 @@
                   toAnalyze: userText
               },
               success: function(msg) {
+                  plot("bar",
+                      ["Letters per Sentence", "Words per Sentence", "Letters per Word", "Syllables per Word", "asf"],
+                      [65, 59, 90, 81, 45],
+                      [28, 48, 40, 19, 51],
+                      "myChart"
+                  );
                   console.log(msg);
               }
           });

@@ -1,7 +1,7 @@
 var http = require('http');
 var bodyParser = require('body-parser');
 var express = require('express');
-// var analyzer = require('./analyzer');
+var analyzer = require('./analyzer');
 var stats = require('./stats')
 
 var app = express();
@@ -13,8 +13,13 @@ app.use(bodyParser.urlencoded({
 
 app.post('/analyze', function(req, res) {
   var text = req.body.toAnalyze;
-  // var result = analyzer.analyze(text);
-  var result = stats.getStats(text);
+  var bigramResult = analyzer.analyze(text);
+  var statsResult = stats.getStats(text);
+
+  var result = {
+    "bigramResult": bigramResult,
+    "statsResult": statsResult
+  }
 
   res.type('json');
   res.send(JSON.stringify(result));
