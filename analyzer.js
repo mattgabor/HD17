@@ -157,14 +157,29 @@ function chainLogProbability(bigrams) {
 	return sum / bigrams.length;
 }
 
+function chainNormalizedLogProbability(bigrams) {
+	var sum = 0;
+
+	for(var i = 0; i < bigrams.length; i++) {
+		let bigram = bigrams[i];
+		sum += bigram.normalizedLogProbability;
+	}
+
+	console.log(sum);
+
+	return 100 * sum / bigrams.length;
+}
+
 
 function _analyze(text) {
 	let bigrams = Bigram.parseBigrams(text);
 	let logProb = chainLogProbability(bigrams);
-	console.log(JSON.stringify(bigrams, null, 4));
+	let normLogProb = chainNormalizedLogProbability(bigrams);
+	// console.log(JSON.stringify(bigrams, null, 4));
 
     return {
     	"overallLogProbability": logProb,
+    	"overallNormalizedLogProbability": normLogProb,
     	"bigrams": bigrams
     };
 }
