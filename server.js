@@ -42,6 +42,9 @@ app.get('/prompt', function(req, res) {
   res.send(prompt);
 });
 
+
+var port = process.env.PORT || 5000;
+
 app.use(express.static('./public'));
-http.createServer(app).listen(8080);
-console.log('Server started on localhost:8080');
+http.createServer(app).listen(port);
+console.log('Server started on localhost:' + port);
