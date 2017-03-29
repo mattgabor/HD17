@@ -1,7 +1,7 @@
 {
   "name": "writeright",
-  "version": "1.0q.0",
-  "description": "CodeBuddy",
+  "version": "1.0.0",
+  "description": "Write Right",
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.16.0",
@@ -23,14 +23,18 @@
     "start": "node server.js",
     "table": "cd frequency_table; ./build.sh; ./gen_freq_table.o whole.txt ../table.json"
   },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mattgabor/HD17.git"
+    "url": "git+https://github.com/mattgabor/WriteRight"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mattgabor/HD17/issues"
+    "url": "https://github.com/mattgabor/WriteRight/issues"
   },
-  "homepage": "https://github.com/mattgabor/HD17#readme"
+  "homepage": "https://github.com/mattgabor/WriteRight#readme"
 }
