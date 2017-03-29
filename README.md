@@ -2,7 +2,7 @@
 
 ## Built at HackDavis '17
 
-A writing improvement tool for non-native English speakers.
+A Writing improvement tool for non-native English speakers.
 
 ## Instructions:
 
