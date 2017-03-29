@@ -1,5 +1,5 @@
 {
-  "name": "hd17",
+  "name": "writeright",
   "version": "1.0.0",
   "description": "CodeBuddy",
   "main": "server.js",
@@ -14,6 +14,9 @@
     "quill": "^1.2.0",
     "text-statistics": "latest",
     "watson-developer-cloud": "^2.15.2"
+  },
+  "engines": {
+    "node": "7.7.4"
   },
   "devDependencies": {},
   "scripts": {
