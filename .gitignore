@@ -42,3 +42,4 @@ frequency_table/gen_freq_table.o
 table.json
 frequency_table/wp_1gram.txt
 frequency_table/wp_2gram.txt
+frequency_table/wp_2gram.txt.gz
