@@ -37,5 +37,8 @@
   "engines": {
     "node": "7.7.4",
     "npm": "4.4.4"
+  },
+  "devDependencies": {
+    "sqlite3": "^3.1.8"
   }
 }
