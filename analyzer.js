@@ -1,18 +1,22 @@
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('table.db');
 let fs = require('fs');
 
 let NOT_FOUND = -20;
 
-var frequencyTable = {};
-try {
-	frequencyTable = JSON.parse(fs.readFileSync('table.json', 'utf8'));
-} catch(err) {
-	console.error(err);
-	console.error('Failed to load table.json, to generate it run:\nnpm run-script table');
-	process.exit(1);
-}
+// var frequencyTable = {};
+// try {
+// 	// frequencyTable = JSON.parse(fs.readFileSync('table.json', 'utf8'));
+// } catch(err) {
+// 	console.error(err);
+// 	console.error('Failed to load table.json, to generate it run:\nnpm run-script table');
+// 	process.exit(1);
+// }
 
-var bigramFrequency = frequencyTable.bigrams;
-var monogramFrequency = frequencyTable.monograms;
+
+
+// var bigramFrequency = frequencyTable.bigrams;
+// var monogramFrequency = frequencyTable.monograms;
 
 module.exports = {
 	analyze: function(text) {
@@ -44,19 +48,23 @@ class Word {
 		this.normalizedText = normalizedText;
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
+		console.log("prob: " + this.calcLogProbability());
 		this.logProbability = this.calcLogProbability();
 	}
+	
 
 	calcLogProbability() {
-		let p = monogramFrequency[this.normalizedText];
-		if(p === undefined) {
-			console.log("Monogram not found for: " + this.normalizedText);
-			return NOT_FOUND;
-		} else {
-			return p;
-		}
+		db.each("SELECT log FROM monograms WHERE word=\"" + this.normalizedText + "\"", function(err, logProb) {
+  		if(logProb === undefined) {
+				console.log("Monogram not found for: " + this.normalizedText);
+				return NOT_FOUND;
+			} else {
+				console.log("inner prob: " + logProb);
+				return logProb;
+			}
+		});
 	}
-
+		
 	static parseWords(text) {
 		if(text.length == 0) {
 			return [];
@@ -117,6 +125,8 @@ class Bigram {
 	}
 
 	calcLogProbability() {
+
+		// insert db lookup
 		let wordTexts = this.words.map(function(w) { return w.normalizedText });
 		let p = bigramFrequency[wordTexts.join("-")];
 		if(p === undefined) {
@@ -172,9 +182,12 @@ function chainNormalizedLogProbability(bigrams) {
 
 
 function _analyze(text) {
+	console.log("before parse")
 	let bigrams = Bigram.parseBigrams(text);
-	let logProb = chainLogProbability(bigrams);
-	let normLogProb = chainNormalizedLogProbability(bigrams);
+	console.log("after")
+	// let logProb = chainLogProbability(bigrams);
+	// let normLogProb = chainNormalizedLogProbability(bigrams);
+
 	// console.log(JSON.stringify(bigrams, null, 4));
 
     return {
@@ -182,4 +195,5 @@ function _analyze(text) {
     	"overallNormalizedLogProbability": normLogProb,
     	"bigrams": bigrams
     };
+		
 }
