@@ -54,15 +54,21 @@ class Word {
 	
 
 	calcLogProbability() {
-		db.each("SELECT log FROM monograms WHERE word=\"" + this.normalizedText + "\"", function(err, logProb) {
-  		if(logProb === undefined) {
-				console.log("Monogram not found for: " + this.normalizedText);
-				return NOT_FOUND;
-			} else {
-				console.log("inner prob: " + logProb);
-				return logProb;
-			}
-		});
+		db.each("SELECT log FROM monograms", function(err, logProb) {
+			// console.log(logProb);
+			console.log(logProb[0]);
+		
+	
+		})
+		// db.each("SELECT log FROM monograms WHERE word=\"" + this.normalizedText + "\"", function(err, logProb) {
+  	// 	if(logProb === undefined) {
+		// 		console.log("Monogram not found for: " + this.normalizedText);
+		// 		return NOT_FOUND;
+		// 	} else {
+		// 		console.log("inner prob: " + logProb[0]);
+		// 		return logProb;
+		// 	}
+		// });
 	}
 		
 	static parseWords(text) {
@@ -190,10 +196,10 @@ function _analyze(text) {
 
 	// console.log(JSON.stringify(bigrams, null, 4));
 
-    return {
-    	"overallLogProbability": logProb,
-    	"overallNormalizedLogProbability": normLogProb,
-    	"bigrams": bigrams
-    };
+    // return {
+    // 	"overallLogProbability": logProb,
+    // 	"overallNormalizedLogProbability": normLogProb,
+    // 	"bigrams": bigrams
+    // };
 		
 }
