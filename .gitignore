@@ -44,3 +44,5 @@ table.db
 frequency_table/wp_1gram.txt
 frequency_table/wp_2gram.txt
 frequency_table/wp_*
+
+sample.txt
